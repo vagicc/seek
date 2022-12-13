@@ -10,7 +10,6 @@ mod template;
 
 #[tokio::main]
 async fn main() {
-    println!("https://elapse.date!");
     // // 最基础warp
     // let hello = warp::path!("hello" / String).map(|name| format!("你好，{}！欢迎来到warp", name));
     // warp::serve(hello).run(([127, 0, 0, 1], 1358)).await;
@@ -33,16 +32,10 @@ async fn main() {
 
     use crate::common::get_env;
 
-    //取得https证书等
-    let cert_path = get_env("cert_path");
-    let key_path = get_env("key_path");
     let ip_addr = get_env("ip_address");
     let socket_addr: std::net::SocketAddr = ip_addr.as_str().parse().unwrap();
 
     warp::serve(routes)
-        .tls()
-        .cert_path(cert_path)
-        .key_path(key_path)
         .run(socket_addr)
         .await;
 }
